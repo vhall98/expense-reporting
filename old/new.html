@@ -1,0 +1,80 @@
+<div class="header">     
+        <header>
+            <div class="centered">
+				<span>Expense Reporting Tool</span>
+            </div>
+        </header>
+</div>
+
+<div class="centered">
+    <div id="ctl00_cphMain_ctl00_ctl00_pnlLoginMain">
+		
+		<div class="displaycourse">
+		    <p>
+				<strong>Expense Reporting Tool</strong><br>
+		    </p>
+		</div>
+		<br>
+    <div onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_cphMain_ctl00_ctl00_btnLoginNew')" class="frosh" id="ctl00_cphMain_ctl00_ctl00_pnlNewStudent">
+			
+        <h3>New Students Start Here</h3>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_cvNew"><p class="error">Our records indicate an account already exists for that e-mail address.  Please use the Returning Student login to the right to continue the enrollment process.</p><p class="error">If you think you are getting this message in error <a href="https://www.ed2go.com/collince/help.html?Topic=support">click here for help</a>.</p></span>
+        <p style="padding-bottom: 8px;">
+            <strong>Create an account</strong> if this is your first time taking an online course
+            with us.
+        </p>
+        <p>
+            <label>
+                E-mail Address</label>
+            <input type="text" placeholder="email@address.com" class="textinput" id="ctl00_cphMain_ctl00_ctl00_txtNewEmail" name="ctl00$cphMain$ctl00$ctl00$txtNewEmail">
+        </p>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvNewEmail"><p class="error">E-mail Address is required.</p></span>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvNewEmail2"><p class="error">E-mail Address is required.</p></span>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_revNewEmail"><p class="error">E-mail Address is invalid. A valid e-mail address must contain an @ sign and a period - e.g. name@company.com.</p></span>
+        <div style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckNew">
+				<span style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckNew_lblHidden">Do Not Fill</span><input type="text" style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckNew_txtHidden" name="ctl00$cphMain$ctl00$ctl00$ctrlBotCheckNew$txtHidden"><span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckNew_revHidden"></span>
+			</div>
+        <p style="text-align: center;">
+            <input type="submit" class="submit" id="ctl00_cphMain_ctl00_ctl00_btnLoginNew" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$cphMain$ctl00$ctl00$btnLoginNew&quot;, &quot;&quot;, true, &quot;NewEmail&quot;, &quot;&quot;, false, false))" value="Create A New Account" name="ctl00$cphMain$ctl00$ctl00$btnLoginNew">
+        </p>
+    
+		</div>
+    <div onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_cphMain_ctl00_ctl00_btnLogin')" class="alumni" id="ctl00_cphMain_ctl00_ctl00_pnlReturning">
+			
+        <h3>Returning Students Login Here</h3>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_cvReturning"><p class="error">We’re sorry, but the e-mail address and/or password you entered does not match an account we have on record.</p><p class="error">Please check your e-mail address and/or password and try again. </p><p class="error">-or -</p><p class="error">Create an account using the New Student login to the left.</p><p class="error">If you think you are getting this message in error <a style="font-size: 10px; float: none;" href="https://www.ed2go.com/collince/help.html?Topic=support">click here for help</a>.</p></span>
+        <p>
+            <label>
+                E-mail Address (username)</label>
+            <input type="text" placeholder="username" class="textinput" id="ctl00_cphMain_ctl00_ctl00_txtUserName" name="ctl00$cphMain$ctl00$ctl00$txtUserName">
+        </p>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvUserName"><p class="error">E-mail address <small>(username)</small> is required.</p></span>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvUserName2"><p class="error">E-mail address <small>(username)</small> is required.</p></span>
+        <p>
+            <label>
+                Password
+                <noscript>&lt;small&gt;(case sensitive)&lt;/small&gt;</noscript></label>
+            <input type="password" placeholder="case sensitive" class="textinput" id="ctl00_cphMain_ctl00_ctl00_txtPassword" name="ctl00$cphMain$ctl00$ctl00$txtPassword">
+        </p>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvPassword"><p class="error">Password is required.</p></span>
+        <span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_rfvPassword2"><p class="error">Password is required.</p></span>
+        <div style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckSignin">
+				<span style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckSignin_lblHidden">Do Not Fill</span><input type="text" style="display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckSignin_txtHidden" name="ctl00$cphMain$ctl00$ctl00$ctrlBotCheckSignin$txtHidden"><span style="color:Red;display:none;" id="ctl00_cphMain_ctl00_ctl00_ctrlBotCheckSignin_revHidden"></span>
+			</div>
+        <p style="text-align: center;">
+            <input type="submit" class="submit" id="ctl00_cphMain_ctl00_ctl00_btnLogin" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$cphMain$ctl00$ctl00$btnLogin&quot;, &quot;&quot;, true, &quot;Login&quot;, &quot;&quot;, false, false))" value="Login To Your Account" name="ctl00$cphMain$ctl00$ctl00$btnLogin">
+        </p>
+    
+		</div>
+    <div style="float: right; width: 400px; text-align: center">
+        <p style="padding: 0; margin: 0; font-size: .8em; padding-top: 5px;" class="forgotpassword">
+            <a href="https://www.ed2go.com/collince/classroom.html" id="ctl00_cphMain_ctl00_ctl00_hlkForgotPassword">Forgot Password?</a>
+        </p>
+    </div>
+
+	</div>
+    
+    
+    
+    
+</div>

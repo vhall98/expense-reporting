@@ -1,0 +1,14 @@
+
+<div class="sidebar">
+	<nav id="leftNav">
+		<ul class="side-nav" id="leftSideNav">
+			<!--======= EXPENSE REPORTS =======-->
+			<li>
+				<span id="nav-expense-form" class="expense-btn">My Expenses </span>			
+			</li>
+			<!--======= EXPENSES TO BE APPROVED =======-->
+			<%= expenses_to_approve( @reviewees, @db_cols, @approver ) %>
+		</ul>
+		&nbsp;
+	</nav>
+</div>

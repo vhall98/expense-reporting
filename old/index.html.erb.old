@@ -1,0 +1,103 @@
+<div id="expenses-page">
+	<div class="row" id="expense-table">
+		<table width="100%" class="expense-table">
+		  <thead>
+		    <tr>
+		      <th>Receipt Date</th>
+		      <th>Vendor</th>
+		      <th>Amount</th>
+		      <th>Purpose</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <%# @sweep.personality_shims.each do |p| %>
+		    <tr>
+		      <td class="date"><%#= p.slug %></td>
+		      <td class="vendor"><%#= p.personality_id %></td>
+		      <td class="amount"></td>
+		      <td class="purpose"></td>
+		    </tr>
+		    <tr>
+		      <td class="date"><%#= p.slug %></td>
+		      <td class="vendor"><%#= p.personality_id %></td>
+		      <td class="amount"></td>
+		      <td class="purpose"></td>
+		    </tr>
+		    <tr>
+		      <td class="date"><%#= p.slug %></td>
+		      <td class="vendor"><%#= p.personality_id %></td>
+		      <td class="amount"></td>
+		      <td class="purpose"></td>
+		    </tr>
+		    <tr>
+		      <td class="date"><%#= p.slug %></td>
+		      <td class="vendor"><%#= p.personality_id %></td>
+		      <td class="amount"></td>
+		      <td class="purpose"></td>
+		    </tr>
+		    <tr>
+		      <td class="date"><%#= p.slug %></td>
+		      <td class="vendor"><%#= p.personality_id %></td>
+		      <td class="amount"></td>
+		      <td class="purpose"></td>
+		    </tr>
+		    <%# end %>
+		  </tbody>
+		</table>
+	</div>
+	<div class="row" id="expense-total">
+		<table width="100%" class="expense-total">
+		  <tbody>
+		    <tr>
+		      <td></td>
+		      <td><%= @login %></td>
+		      <td>$6509.45</td>
+		      <td></td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+
+	<!-- 
+	      ---------------------------------------- Expense Entry Section ---------------------------------------- 
+	-->
+	<div id="expense-section" class="panel receipt-entry-section" style="padding:5px">
+		
+			<div class="row headers">
+				<div class="columns large-6 show-for-large-up">
+					<span>Details</span>
+				</div>
+				<div class="columns large-6 show-for-large-up">
+					<span>Categories</span>
+				</div>
+				<div class="columns large-2 show-for-large-up">
+					<span>Amounts</span>
+				</div>
+			</div>
+		
+				<div class="row expense-details">
+				    <form method="post" action="/expense/add" >				
+						<div class="columns large-6">
+							<label>Receipt Date:</label>
+							<input type="textbox" class="text-box" value="02/16/12" data-date-format="mm/dd/yy" id="dp1" />
+							<label>Have Receipt:</label>
+							<input class="have-receipt" type="checkbox" name="have-receipt" value="1" checked="checked" />
+						</div>
+
+						<div class="columns large-6 show-for-large-up">
+							<select>
+								<option value="benefits1" default>Benefits 1</option>
+								<option value="benefits2">Benefits 2</option>
+							</select>		
+						</div>
+						<div class="columns large-2">
+							<input type="textbox" class="text-box" name="receipt-date" id="receipt-date">
+						</div>
+					
+					</div>
+				</form>
+			</div>
+
+</div>
+
+

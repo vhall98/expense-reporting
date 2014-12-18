@@ -1,0 +1,69 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ReceiptDate: 2014-07-16 22:49:17
+  Amount1: 1
+  Amount2: 1
+  Amount3: 1
+  Amount4: 1
+  Amount5: 1
+  CategoryID1: 1
+  CategoryID2: 1
+  CategoryID3: 1
+  CategoryID4: 1
+  CategoryID5: 1
+  ApprovedBy: MyString
+  Persons: MyString
+  ProjectDesc: MyString
+  ProjectID: MyString
+  ApprovedDate: 2014-07-16 22:49:17
+  ExportDate: 2014-07-16 22:49:17
+  UpdateDate: 2014-07-16 22:49:17
+  Duration: MyString
+  DurationType: MyString
+  EmployeeID: MyString
+  PaidBy: MyString
+  NightsAway: MyString
+  Purpose: MyString
+  ExpReasonID: 1
+  HaveReceipt: 1
+  LocalExpense: 1
+  State: MyString
+  Status: MyString
+  Vendor: MyString
+  UpdateUser: MyString
+  ReceiptNo: 1
+
+two:
+  ReceiptDate: 2014-07-16 22:49:17
+  Amount1: 1
+  Amount2: 1
+  Amount3: 1
+  Amount4: 1
+  Amount5: 1
+  CategoryID1: 1
+  CategoryID2: 1
+  CategoryID3: 1
+  CategoryID4: 1
+  CategoryID5: 1
+  ApprovedBy: MyString
+  Persons: MyString
+  ProjectDesc: MyString
+  ProjectID: MyString
+  ApprovedDate: 2014-07-16 22:49:17
+  ExportDate: 2014-07-16 22:49:17
+  UpdateDate: 2014-07-16 22:49:17
+  Duration: MyString
+  DurationType: MyString
+  EmployeeID: MyString
+  PaidBy: MyString
+  NightsAway: MyString
+  Purpose: MyString
+  ExpReasonID: 1
+  HaveReceipt: 1
+  LocalExpense: 1
+  State: MyString
+  Status: MyString
+  Vendor: MyString
+  UpdateUser: MyString
+  ReceiptNo: 1

@@ -1,0 +1,316 @@
+//= require jquery
+//= require acig
+//= require jquery.validate
+//= require jquery.validate.additional-methods
+
+var Acig = Acig || {};
+Acig.Expense = (function() {
+
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// Note: Additional javascript is embeded in index.html.erb
+	//
+	///////////////////////////////////////////////////////////////////////////////
+	
+	
+	// initExpensePage = = = = =
+	// initExpensePage = = = = =
+	// initExpensePage = = = = =
+	
+	var initExpensePage = function(e) {
+		var approve = 0;
+		//
+		// add calendar/datepicker to page
+		//
+		$('#expense_ReceiptDate').fdatepicker();
+		var closeButton = $(".datepicker").find('a.datepicker-close'); 
+		if ( closeButton ) {
+			closeButton.hide();
+		}
+		
+		if ( $('#nav-approve-expenses').is(':visible') ) {
+			approve = 1;	// Set this if Approve is visible in nav box.
+		}					// Check authentication/permission value set 
+							// by controller to hide/show Approve in helper file.
+							
+		_setupLeftSideNavClicks(approve);
+		
+		if ( approve == 1 ) {
+			var to_approve = $('#approve-list li');
+			_setupTableRowEditing(to_approve); // sub variable 'approve' for 1 later
+			_setupApproveButtons();
+		}
+		else {
+			var expenses = $('#expenses-page #expense-table').find('table tbody tr.pending_expenses');
+			_setupTableRowEditing(expenses); // sub variable 'approve' for 0 later
+		}
+    };
+
+
+	// _setupApproveButtons = = = = =
+	// _setupApproveButtons = = = = =
+	// _setupApproveButtons = = = = =
+
+	var _setupApproveButtons = function() {
+
+		$('#approve-button, #reject-button').click( function (e) {
+			var id = $(this).find('#id').val();
+			var action_url = "/approve";
+			var values = {};
+			values["action"] = "approve";
+			
+			if ( $(this).attr('id').match(/reject/i)) {
+				action_url = "/reject";
+				values["action"] = "reject";
+			}
+			var $inputs = $('#receipt-form :input');
+
+			var values = {};
+			$inputs.each(function() {
+				var name = this.id ? this.id.split("_") : false;
+
+				if ( $(this).val() && name && name[1] ) {
+					values[name[1]] = $(this).val();
+				}
+			});
+			//alert(values.toSource());
+			$.ajax({
+				context: this,
+				url: action_url,
+				data: {receipt_no: values},
+				type: 'post',
+				dataType: 'script',
+				success: _success_ok,
+				error: _process_error
+			});
+		});
+	};
+	
+		
+	// _setupLeftSideNavClicks = = = = =
+	// _setupLeftSideNavClicks = = = = =
+	// _setupLeftSideNavClicks = = = = =
+
+	var _setupLeftSideNavClicks = function(approve) {
+		if ( approve == 1 ) {
+			$('#nav-approve-expenses').click( function() {
+				if ( !$('#approve-expense').is(':visible') ) {
+					$('#approve-list').toggle();
+					$('#expense-buttons').toggle();
+					$('#approver-buttons').toggle();
+					$('#expense-table').toggle();
+
+					//
+					// now you need to disable/enable expense entry section
+					//
+					var $inputs = $('#receipt-form :input');
+					if ( $('#approver-buttons').is(':visible') ) {
+						$inputs.attr('disabled', true);
+						$('#approve-button, #reject-button').removeAttr('disabled');
+					}
+					else {
+						$inputs.removeAttr('disabled');
+					}
+				}
+			});
+		}
+	
+		$('#nav-expense-form').click( function() {
+			if ( $('#approve-button').is(':visible') ) {
+				$('#approve-list').toggle();
+				$('#expense-buttons').toggle();
+				$('#approver-buttons').toggle();
+				$('#expense-table').toggle();
+				
+				var $inputs = $('#receipt-form :input');
+				$inputs.removeAttr('disabled');
+			}
+		});
+	};
+		
+		
+	// _setupTableRowEditing = = = = =
+	// _setupTableRowEditing = = = = =
+	// _setupTableRowEditing = = = = =
+
+	var _setupTableRowEditing = function(expenses) {
+		//var rows = $('#expenses-page #expense-table').find('table tbody tr.pending_expenses');
+		var rows = expenses;
+		if ( rows.length > 0 ) {
+			rows.click( function() {
+				var row_inputs = $(this).find('input');
+				row_inputs.each(function() {
+					var row = $('#expense_' + this.id);
+					if ( row ) {
+						row.val($(this).val());
+						row.attr('value', $(this).val());
+						if ( row.children().length > 0 ) {
+							row.children().each( function() {
+								if ( $(this).val() == row.val() ) {
+									$(this).attr('selected', 'selected');
+								}
+							});
+						}
+						else if ( row.is(':checkbox') ) {
+							var test = row.val();
+							var val = row.val() == "false" ? 0 : 1;
+							row.val(val);
+							if ( row.val() == 0 ) {
+								row.removeAttr('checked');
+							}
+							else {
+								row.attr('checked', '');
+							}
+						}
+						else {
+							row.html($(this).val());		
+						}
+					}
+			    });
+				_calcReceiptsTotal();
+				_clearErrors();
+				$('#save-button, #cancel-button').addClass('disable').attr('disabled', true);			
+				var $inputs = $('#receipt-form :input');
+				$inputs.attr('disabled', true);
+				$('#edit-button, #delete-button, #new-button').removeAttr('disabled').removeClass('disable');
+
+				if ( $(this).attr('value').match(/approval/) ) {
+					$('#submit-button').addClass('disable').attr('disabled', true);
+				}
+				else {
+					$('#submit-button').removeClass('disable').removeAttr('disabled');
+				}
+			});			
+		}
+	};		
+
+		
+	// _clearErrors = = = = =
+	// _clearErrors = = = = =
+	// _clearErrors = = = = =
+
+	var _clearErrors = function() {
+		var errors = $('#receipt-form').find('.yellow');
+		if ( errors && errors.length > 0 ) {
+			errors.each( function () {
+				$(this).removeClass('yellow');
+			});
+			$("#form-error").css('display', 'none');
+		}
+	};
+	
+	
+	// decimalFormat = = = = =
+	// decimalFormat = = = = =
+	// decimalFormat = = = = =
+
+	var decimalFormat = function() {
+		$('.numeric').keydown( function(e) {
+			_suppressNonNumericInput(e, $(this));
+		});
+		$('.numeric').keyup( function(e) {
+			var test = $(this).val();
+			//alert(test);
+			if ( _IsFloatOnly($(this).val()) ) {
+				$(this).val(parseFloat($(this).val()).toFixed(2));
+			}
+			_calcReceiptsTotal();
+		});
+    };
+
+
+	// _success_ok = = = = =
+	// _success_ok = = = = =
+	// _success_ok = = = = =
+
+	var _success_ok = function() {
+		
+	};
+
+	// _process_error = = = = =
+	// _process_error = = = = =
+	// _process_error = = = = =	
+	
+	var _process_error = function(e) {
+
+	};
+	
+	
+	// _calcReceiptsTotal = = = = =
+	// _calcReceiptsTotal = = = = =
+	// _calcReceiptsTotal = = = = =
+		
+	var _calcReceiptsTotal = function() {
+		var amounts = $('#receipt-form').find('.amount');
+		var calc = 0.00;
+
+		amounts.each( function() {
+			if ( $(this).val() ) {
+				if ( !isNaN(1*$(this).val()) ) {
+					calc = 1*$(this).val() + 1*calc;
+				}
+				calc = ""+calc;
+				if ( !calc.match(/\./) ) {
+					calc = parseFloat(calc).toFixed(2);
+				}		
+			}
+		});
+		$("#total").attr('value', calc).val(calc);
+	};
+	
+
+	// _suppressNonNumericInput = = = = =
+	// _suppressNonNumericInput = = = = =
+	// _suppressNonNumericInput = = = = =
+	
+	var _suppressNonNumericInput = function(event, elem){
+		var val = elem.val();
+
+	    if ( elem.attr('name') == 'total'						// disable column text box. No input.
+			|| !(event.keyCode == 8								// backspace
+		    || event.keyCode == 190                             // Mac keyboard period
+	        || event.keyCode == 46                              // delete or period
+	        || (event.keyCode >= 35 && event.keyCode <= 40)     // arrow keys/home/end
+	        || (event.keyCode >= 48 && event.keyCode <= 57)     // numbers on keyboard
+	        || (event.keyCode >= 96 && event.keyCode <= 105)	// number on keypad
+	        || ((elem.attr('name') == 'date') 
+				&& (event.keyCode == 191 
+					|| event.keyCode == 47)) ) // allow forward slash for date textbox
+	        ) {
+	            event.preventDefault();     // Prevent character input
+			}
+		else if ( (event.keyCode == 190 || event.keyCode == 46) && 
+			( !(val === undefined || val === null || val === "") && val.match(/\./)  // don't allow another period
+			|| (val === undefined || val === null || val === "") ) ) { // no digits present so don't allow period
+				event.preventDefault();     // Prevent character input
+		}
+	};
+
+	// _IsFloatOnly = = = = =
+	// _IsFloatOnly = = = = =
+	// _IsFloatOnly = = = = =
+	
+	var _IsFloatOnly = function(value) {    
+		var regExp1 = /^\d+(\.(\d\d))/;
+		var regExp2 = /^\d+(\.(\d\d\d))/;
+		return regExp1.test(value) || regExp2.test(value);
+	};
+
+  // onDomReady = = = = =
+  // onDomReady = = = = =
+  // onDomReady = = = = =
+
+  $(document).ready( function(){
+    initExpensePage();
+	decimalFormat();
+  });
+
+  // return = = = = =
+  // return = = = = =
+  // return = = = = =
+
+    return {
+        initExpensePage:        initExpensePage,
+		decimalFormat: 			decimalFormat
+	};
+})();

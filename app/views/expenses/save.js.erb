@@ -1,0 +1,107 @@
+// _setupTableRowEditing = = = = =
+// _setupTableRowEditing = = = = =
+// _setupTableRowEditing = = = = =
+
+var _setupTableRowEditing = function(expenses) {
+	var rows = expenses;
+	if ( rows.length > 0 ) {
+		rows.click( function() {
+			var row_inputs = $(this).find('input');
+			row_inputs.each(function() {
+				var row = $('#expense_' + this.id);
+				if ( row ) {
+					row.val($(this).val());
+					row.attr('value', $(this).val());
+					if ( row.children().length > 0 ) {
+						row.children().each( function() {
+							if ( $(this).val() == row.val() ) {
+								$(this).attr('selected', 'selected');
+							}
+						});
+					}
+					else if ( row.is(':checkbox') ) {
+						var test = row.val();
+						var val = row.val() == "false" ? 0 : 1;
+						row.val(val);
+						if ( row.val() == 0 ) {
+							row.removeAttr('checked');
+						}
+						else {
+							row.attr('checked', '');
+						}
+					}
+					else {
+						row.html($(this).val());		
+					}
+				}
+		    });
+			_calcReceiptsTotal();
+			if ( $('#approve-button').is(':visible') ) {
+				$('#approve-button, #reject-button').removeAttr('disabled');
+				var id = $(this).find('#id').attr('value');
+				$('#approve-button, #reject-button').attr('value', id);
+			}
+			else {
+				$('#save-button, #cancel-button').addClass('disable');			
+				var $inputs = $('#receipt-form :input');
+				$inputs.attr('disabled', true);
+				$('#delete-button, #new-button, #edit-button').removeAttr('disabled').removeClass('disable');
+				$('#submit-button').addClass('disable');
+				
+				if ( !$(this).attr('value').match(/approval/) && $(this).attr('value').match(/pending/) ) {
+					$('#submit-button').removeAttr('disabled').removeClass('disable');
+				}
+				else if ( $(this).attr('value').match(/approved/) ) {
+					$('#edit-button').addClass('disable').attr('disabled', true);
+				}					
+			}
+
+		});			
+	}
+};
+
+// _calcReceiptsTotal = = = = =
+// _calcReceiptsTotal = = = = =
+// _calcReceiptsTotal = = = = =
+	
+var _calcReceiptsTotal = function() {
+	var amounts = $('#receipt-form').find('.amount');
+	var calc = 0.00;
+
+	amounts.each( function() {
+		if ( $(this).val() ) {
+			if ( !isNaN(1*$(this).val()) ) {
+				calc = 1*$(this).val() + 1*calc;
+			}
+			calc = ""+calc;
+			if ( !calc.match(/\./) ) {
+				calc = parseFloat(calc).toFixed(2);
+			}		
+		}
+	});
+	$("#total").attr('value', calc).val(calc);
+};
+
+
+$('#expense-table #<%= @user %>').remove();
+$('#expense-table').append("<%= current_expenses(@user, @expenses, @db_cols, nil, nil) %>");
+var expenses = $('#<%= @user %>').find('table tbody tr.pending_expenses');
+_setupTableRowEditing(expenses);
+
+if ( "<%= !@pending_expenses.nil? %>" == "true"  ) {
+	$('#expense-table #pending_<%= @user %>').remove();
+	$('#expense-table').append("<%= current_expenses('pending_'+@user, @pending_expenses, @db_cols, nil, nil) %>");
+	expenses = $('#pending_<%= @user %>').find('table tbody tr.pending_expenses');
+	_setupTableRowEditing(expenses);
+	$('#pending_<%= @user %>').css('display', 'none');
+}
+
+if ( "<%= !@updated_expenses.nil? %>" == "true"  ) {
+	$('#expense-table #<%= @orig_user %>').remove();
+	$('#expense-table').append("<%= current_expenses(@orig_user, @updated_expenses, @db_cols, nil, nil) %>");
+	expenses = $('#<%= @orig_user %>').find('table tbody tr.pending_expenses');
+	_setupTableRowEditing(expenses);
+	$('#<%= @orig_user %>').css('display', 'none');
+}
+
+ 

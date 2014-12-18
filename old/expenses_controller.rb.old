@@ -1,0 +1,135 @@
+class ExpensesController < ApplicationController
+  
+  def index
+    @user = Sys::Admin.get_login
+    @categories = Category.select("CategoryID, Description")
+    @exp_reasons = ExpReason.select("Description,ExpReasonID")
+    @paid_by = PayByCode.select("Code_Desc").where(["Parent_ID = ?", 14])
+    @states = State.select("StateAbbr")
+    @expenses = Expense.where(["UpdateUser = ?", @user])
+    
+    @cat_cols = Expense.columns.select{ |c| c.type == :integer }.map(&:name)
+
+    @cat_names = []
+    @cat_cols.each do |e|
+      if e.match('Cat')
+        @cat_names.push(e)
+      end
+    end
+    
+    @amnt_names = []
+    @amnt_cols = Expense.columns.select{ |c| c.type == :decimal }.map(&:name)
+    @amnt_cols.each do |i|
+      if i.match('Amount')
+         @amnt_names.push(i)
+       end
+    end
+    
+    # SELECT Description,CategoryID 	FROM tblCategory 	ORDER BY Description
+    # SELECT Description,ExpReasonID 	FROM tblExp_Reasons ORDER BY Description
+    # SELECT Code_Desc as PaidBy	FROM dbACIG.dbo.tblCodes WHERE Parent_ID = 14 --Paid_By
+    # select StateAbbr from dbACIG.dbo.tblStates
+  
+    # Create mapping to Expense table column names
+    @db_cols = {   :receipt_no    => "ReceiptNo",
+                   :employee_id   => "EmployeeID",
+                   :category1     => "CategoryID1",
+                   :category2     => "CategoryID2",
+                   :category3     => "CategoryID3",
+                   :category4     => "CategoryID4",
+                   :category5     => "CategoryID5",
+                   :amount1       => "Amount1",
+                   :amount2       => "Amount2",
+                   :amount3       => "Amount3",
+                   :amount4       => "Amount4",
+                   :amount5       => "Amount5",
+                   :date          => "ReceiptDate",
+                   :reason        => "ExpReasonID",
+                   :duration      => "Duration",
+                   :duration_type => "DurationType",
+                   :vendor        => "Vendor",
+                   :purpose       => "Purpose",
+                   :paid_by       => "PaidBy",
+                   :local         => "LocalExpense",
+                   :have_receipt  => "HaveReceipt",
+                   :persons       => "Persons",
+                   :state         => "State",
+                   :update_user   => "UpdateUser"} 
+  
+  end
+  
+  def submit 
+  end
+
+  # GET /expenses/1
+  # GET /expenses/1.json
+  def show
+    @expense = Expense.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @expense }
+    end
+  end
+
+  # GET /expenses/new
+  # GET /expenses/new.json
+  def new
+    @expense = Expense.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @expense }
+    end
+  end
+
+  # GET /expenses/1/edit
+  def edit
+    @expense = Expense.find(params[:id])
+  end
+
+  # POST /expenses
+  # POST /expenses.json
+  def create
+    @expense = Expense.new(params[:expense])
+
+    respond_to do |format|
+      if @expense.save
+        format.html { redirect_to @expense, notice: 'Expense was successfully created.' }
+        format.json { render json: @expense, status: :created, location: @expense }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @expense.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /expenses/1
+  # PUT /expenses/1.json
+  def update
+    @expense = Expense.find(params[:id])
+
+    respond_to do |format|
+      if @expense.update_attributes(params[:expense])
+        format.html { redirect_to @expense, notice: 'Expense was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @expense.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /expenses/1
+  # DELETE /expenses/1.json
+  def destroy
+    @expense = Expense.find(params[:id])
+    @expense.destroy
+
+    respond_to do |format|
+      format.html { redirect_to expenses_url }
+      format.json { head :no_content }
+    end
+  end
+
+end

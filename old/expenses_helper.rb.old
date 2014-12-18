@@ -1,0 +1,151 @@
+module ExpensesHelper
+  #
+  # Create the expense entry section
+  #
+  def expense_form(states, paid_by, exp_reasons, categories)  
+    content = "<form id='receipt-form'>"\
+    	"<div class='expense-details'>"
+    	
+		6.times do |i|
+			content += "<div class='row'>"\
+				"<div class='columns small-6 medium-6 large-6'>"
+				
+				case i 
+				when 0
+					content += "<label>Receipt Date:</label>"\
+					"<input id='dp1' name='dp1' type='textbox' class='numeric text-box' value='' data-date-format='mm/dd/yyyy'/>"\
+					"<div style='float:right'>"\
+						"<label>Have Receipt:</label>"\
+						"<input id='have-receipt' class='check-box' type='checkbox' name='have-receipt' value='1' checked='checked' />"\
+					"</div>"
+				when 1
+					content += "<label>Exp. Reason:</label>"\
+					"<select id='reason' name='reason' class='select-size2'>"\
+						"<option value='' default></option>"
+					exp_reasons.each do |x|
+						content += "<option value='#{x["ExpReasonID"]}'>#{x["Description"]}</option>"
+					end
+					content += "</select>"
+					
+				when 2
+					content += "<div style='float:right'>"\
+						"<label>Local:</label>"\
+						"<input id='local' class='check-box' type='checkbox' name='local' value='1' checked='checked'/>"\
+						"<label>State:</label>"\
+						"<select id='state' name='state' class='select-size1'>"\
+							"<option value='' default></option>"
+						states.each do |s|
+							content += "<option value='#{s["StateAbbr"]}'>#{s["StateAbbr"]}</option>"
+						end
+						content += "</select>"\
+					"</div>"
+				when 3
+					content += "<div style='float:right'>"\
+						"<label>Paid By:</label>"\
+						"<select id='paid_by' name='paid_by' class='select-size2'>"\
+							"<option value='' default></option>"
+						paid_by.each do |p|
+							content += "<option value='#{p["Code_Desc"]}'>#{p["Code_Desc"]}</option>"
+            			end
+						content += "</select>"\
+					"</div>"
+				when 4
+					content += "<div style='float:right'>"\
+		                "<label>Duration:</label>"\
+						"<input id='duration' type='textbox' class='numeric text-box' name='duration'>"\
+						"<label>Type:</label>"\
+						"<select id='hours_or_days' name='hours_or_days' class='select-size1'>"\
+							"<option value='' default></option>"\
+							"<option value='Hours' default>Hours</option>"\
+							"<option value='Days'>Days</option>"\
+						"</select>"\
+					"</div>"
+				when 5
+					content += "<div style='float:right'>"\
+						"<label>Vendor:</label>"\
+						"<input id='vendor' type='textbox' class='text-box2' name='vendor'>"\
+					"</div>"
+				end
+				content += "</div>"\
+				"<div class='columns large-7'>"
+					if i < 5
+  					content += "<select id='category#{i}' name='category#{i}'>"\
+  						"<option value='' default></option>"
+  					categories.each do |c|
+  						content += "<option value='#{c["CategoryID"]}'>#{c["Description"]}</option>"
+  					end
+  					content += "</select>"
+					else
+						content += "<label style='float: right'>Total:</label>"
+					end
+				content += "</div>"\
+				"<div class='columns large-2'>"\
+					"<input id='amount#{i}' type='textbox' class='numeric text-box' name='amount#{i}'>"\
+				"</div>"\
+			"</div>"
+		end
+			content += "<div class='row'>"\
+        "<div class='columns small-15 medium-15 large-15' style='float:right'>"\
+  					"<label>Purpose:</label>"\
+  					"<input id='purpose' type='textbox' class='text-entry' name='purpose'>"\
+  				"</div>"\
+  			"</div>"\
+			"<div class='row'>"\
+        "<div class='columns small-15 medium-15 large-15' style='float:right'>"\
+            "<label>Persons:</label>"\
+            "<input id='persons' type='textbox' class='text-entry' name='persons'>"\
+  			"</div>"\
+		  "</div>"\
+		"</div>"\
+	"</form>"\
+		"<div class='row'>"\
+      "<div class='columns small-15 medium-15 large-15 buttons-section'>"\
+          "<button id='add-receipt' name='add-receipt' class='button tiny radius btn' type='button' value='Validate'>Add</button>"\
+          "<button class='button tiny radius btn' type=''>Cancel</button>"\
+          "<button class='button tiny radius btn' type=''>Exit</button>"\
+  	  "</div>"\
+	  "</div>"
+	
+	  content.html_safe
+  end
+  
+  def current_expenses( user )
+
+    content = "<div id='expense-table'>"\
+    "<div class='row'>"\
+    	"<div class='columns small-15 medium-15 large-15' style='width:100%' >"\
+    		"<table class='expense-table-contents'>"\
+    		  "<thead>"\
+    		    "<tr>"\
+    		      "<th class='date'>Receipt Date</th>"\
+    		      "<th>Vendor</th>"\
+    		      "<th>Amount</th>"\
+    		      "<th>Purpose</th>"\
+    		    "</tr>"\
+    		  "</thead>"\
+    		  "<tbody>"\
+    		    "<tr>"\
+    		      "<td class='date'>03/04/20114</td>"\
+    		      "<td class='vendor'>General Contracting Insurance Corporation</td>"\
+    		      "<td class='amount'>66,345.00</td>"\
+    		      "<td class='purpose'>General Contracting Insurance Corporation General Contracting Insurance Corporation General Contracting Insurance Corporation General Contracting Insurance Corporation General Contracting Insurance Corporation General Contracting Insurance Corporation General Contracting Insurance Corporation </td>"\
+    		    "</tr>"\
+    		  "</tbody>"\
+    		"</table>"\
+    	"</div>"\
+    "</div>"\
+    "<div class='row'>"\
+    	"<div class='columns small-15 medium-15 large-15'>"\
+    		"<div class='buttons-section'>"\
+    			"<button class='button tiny radius btn' type=''>Edit</button>"\
+    			"<a class='button tiny radius btn' type='submit'>Save</a>"\
+    			"<a class='button tiny radius btn' type='submit'>Delete</a>"\
+    		"</div>"\
+    	"</div>"\
+    "</div>"\
+"</div>"
+    
+    content.html_safe
+  end
+
+end

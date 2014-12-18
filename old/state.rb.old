@@ -1,0 +1,4 @@
+class State < ActiveRecord::Base
+  establish_connection :development
+  set_table_name 'dbACIG.dbo.tblStates'
+end

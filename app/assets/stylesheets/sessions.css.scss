@@ -1,0 +1,42 @@
+// Place all the styles related to the sessions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.notice_a, .notice_b {
+	color: red;
+	text-align: center;
+}
+.notice_a {
+	margin-top: -18px;
+}
+.signup_errors_a, .signup_errors_b {
+	font-size: 14px;
+	color: #ffffff;
+}
+.signup_errors_a {
+	margin-top: -24px;
+	display: block;
+}
+.signup_errors_b {
+	display: block;
+	margin-top: 64px;
+}
+div.blue {
+	background: -moz-linear-gradient(center top , #006699, #003366) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #003366;
+	color: #ffffff;
+//    font-size: 28px;
+//    height: 99px;
+//    padding-top: 13px;
+//    text-align: center;
+    font-size: 18px;
+    padding: 8px;
+	p {
+		padding-bottom: 10px;
+		font-size: 18px;
+	}
+}
+.expense_image {
+	background-image: url('/assets/expense.png');
+	height: 710px;
+}

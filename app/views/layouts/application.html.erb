@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Expense</title>
+		<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+		<!--link rel="stylesheet" href="assets/stylesheets/font-awesome/css/font-awesome.min.css"-->
+		<%= csrf_meta_tags %>
+	</head>
+
+	<body class="expense_image">
+		<div>
+			<header>
+				<%#= image_tag "expense-banner.jpg", :class=>"logos" %>
+				<div id="login-page" class="blue">
+					<span id='login-hdr' style="margin-left:10px"> Cystar System Solutions </span>
+					<span style="float:right"> Expense Reporting System </span>
+				</div>
+			</header>
+			<div id="main" class="row">
+				<div id="logged-in-page" class="expense-hdr columns small-15 medium-15 large-15">
+					<span id='system-hdr' style="margin-left: 10px"> Expenses </span>
+					<div id="logout" style="float:right;margin:2px 10px 0px">
+						<%= form_tag( :action => 'logout' ) do %>
+						<p style="text-align:center">
+						<%= submit_tag "logout", :class => 'logout tiny radius btn' %>
+						</p>
+						<% end %>
+					</div>
+					<span id="logged-in" style="float:right;margin-right:10px"></span>
+				</div>	
+				<div id="mainContainer" class="row">
+					<%= yield %>
+				</div>
+			</div>	  
+	    </div>
+	</body>
+
+</html>

@@ -1,0 +1,55 @@
+<% @page_title = "UserAuth | Signup | Login" %>
+<div class="sign-in">
+	<div id="new_signup" class="frost">
+		<h6>New Users Start Here</h6>
+		<p style="padding-bottom: 8px;">
+			<strong>Create an account</strong>
+			if this is your first time using the system.
+		</p>
+		<%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
+			<p> Username:</br> <%= f.text_field :username, :class => 'text-field'%> </p>
+			<p> Email:</br> <%= f.text_field :email, :class => 'text-field'%> </p>
+			<p> Password:</br> <%= f.password_field :password, :class => 'text-field'%></p>
+			<p> Password Confirmation:</br> <%= f.password_field :password_confirmation, :class => 'text-field'%> </p>
+			<p style="text-align: center"><%= f.submit :Signup, :class => 'submit blue' %></p>
+		<% end %>
+		<% if !@employee.nil? && @user.errors.any? %>
+			<ul class="signup_errors_a">
+			<% for message_error in @employee.errors.full_messages %>
+				<li><%= message_error %></li>
+			<% end %>
+			</ul>
+		<% end %>
+		<% if !@user.nil? && @user.errors.any? %>
+			<ul class="signup_errors_b">
+			<% for message_error in @user.errors.full_messages %>
+				<li><%= message_error %></li>
+			<% end %>
+			</ul>
+		<% end %>
+
+	    <% flash.each do |name, msg| -%>
+			<% if "#{name}" == 'notice_a' %>
+				<%= content_tag :div, msg, class: name %>
+			<% end %>
+	    <% end -%>
+	</div>
+
+	<div id="signup" class="frost" style="float:right">
+		<h6>Log in</h6>
+		<%= form_tag( {:controller => 'sessions', :action => 'login_attempt'}, :class => 'login-form') do %>
+			<p>Username or Email:</br> 
+				<%= text_field_tag('username_or_email', nil, :class => 'text-field') %>
+			</p>
+			<p>Password:</br> 
+				<%= password_field_tag 'login_password', nil, :class => 'text-field' %>
+			</p>
+			<p style="text-align: center"><%= submit_tag "Log In", :class => 'submit orange' %></p>
+		<% end %>
+	    <% flash.each do |name, msg| -%>
+			<% if "#{name}" == 'notice_b' %>
+				<%= content_tag :div, msg, class: name %>
+			<% end %>
+	    <% end -%>
+	</div>
+</div>
