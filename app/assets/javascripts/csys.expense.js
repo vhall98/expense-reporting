@@ -40,7 +40,7 @@ Csys.Expense = (function() {
 		var expense_tables = $('#expenses-page #expense-table div.expense_table');
 		expense_tables.each(function() {
 			var expenses = $(this).find('table tbody tr.pending_expenses');
-			_setupTableRowEditing(expenses); // sub variable 'approve' for 0 later
+			_setupTableRowEditing(expenses); 
 		});
 
 		if ( approve == 1 ) {
@@ -50,9 +50,9 @@ Csys.Expense = (function() {
     },
 
 
-	// _setupToApproveList = = = = =
-	// _setupToApproveList = = = = =
-	// _setupToApproveList = = = = =
+	// _disable_total_box = = = = =
+	// _disable_total_box = = = = =
+	// _disable_total_box = = = = =
 
 	 _disable_total_box = function() {
 		$('#expense_total').keydown( function(e) {
@@ -338,7 +338,6 @@ Csys.Expense = (function() {
 				}
 				_clearErrors();
 				disable_inputs(true);
-			   $('#receipt-form').submit();
 			}
 		});
 
@@ -346,7 +345,6 @@ Csys.Expense = (function() {
 			$('#delete-button, #edit-button, #new-button, #submit-button').addClass('disable').attr('disabled', true);
 			$('#cancel-button, #save-button').removeAttr('disabled').removeClass('disable');
 			disable_inputs(false);
-			setupValidation();
 		});
 
 		$('#delete-button').click( function(e) {
@@ -512,9 +510,7 @@ Csys.Expense = (function() {
 
 	 setupValidation = function() {
 
-		$.validator.addMethod(
-			"isThisElementRequired",
-			function(value, element) {
+		 $.validator.addMethod( "isThisElementRequired", function(value, element) {
 				var val2 = $(element.getAttribute('data-val')).val();
 				val2 = val2 ? true : false;
 				var val1 = value ? true : false;
@@ -652,7 +648,7 @@ Csys.Expense = (function() {
 		var action = data["action"];
 		
 		_build_expense_list(_tbody, expense, action);
-		// if user viewed is the same as main user, which means you are a reviewer. when you update a
+		// if user viewed is the same as main user, which means you are a reviewer, when you update a
 		//  pending expense, you need to updated your expense list shown in Employee list.
 		if ( expense["status"] == "pending approval"  && $('#viewing').val() == main_user ) {
 			var pndg_apprvl_exps = data["pending_approval_expenses"];
