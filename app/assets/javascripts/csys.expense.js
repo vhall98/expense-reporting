@@ -11,6 +11,9 @@ Csys.Expense = ( function() {
 	// initExpensePage = = = = =
 	
 	var initExpensePage = function(e) {
+		if ( !$('#signup').is(':visible') ) {
+			$('#logged-in-page').toggle();
+		}
 		var approve = 0;
 		
 		var main_user = $('#main-user').val();
@@ -68,7 +71,7 @@ Csys.Expense = ( function() {
 		var to_approve_list = $('#approve-list li');
 		
 		to_approve_list.click( function() {
-			
+			$(this).addClass('yellow2');
 			var exp_to_view = $(this).attr('value');
 			var viewing = $('#viewing').val();
 			if ( viewing !== "blank_rows" ) { 
@@ -82,6 +85,7 @@ Csys.Expense = ( function() {
 			
 			$('#'+viewing).hide();
 			$('#'+exp_to_view).show();
+			$('#viewing').attr('value', exp_to_view);
 			$('#system-hdr').html("Expenses to approve for: " + (exp_to_view.split('_'))[1]);			
 		});
 	},
@@ -338,7 +342,7 @@ Csys.Expense = ( function() {
 					$('#new-button').removeAttr('disabled').removeClass('disable');
 					$('#cancel-button, #save-button').addClass('disable').attr('disabled', true);
 				}
-				// _clearErrors();
+				$('#receipt-form').submit();
 				disable_inputs(true);
 			}
 		});
@@ -676,7 +680,7 @@ Csys.Expense = ( function() {
 	// _build_expense_list = = = = =
 
 	 _build_expense_list = function(elem_tbody, expns_entry, action) {
-		var new_exp = true;		
+		var new_exp_row = true;		
 		
 		var _selected = elem_tbody.find('.yellow').length > 0 ? elem_tbody.find('.yellow') : ( elem_tbody.find('tr.blank_expenses').length > 0 ? 
 				elem_tbody.find('tr.blank_expenses').first() : $("<tr class='pending_expenses' value='"+expns_entry["status"]+"'><td class='date'></td>" +
@@ -703,7 +707,7 @@ Csys.Expense = ( function() {
 		}
 		else if ( blanks_len > 0 ) {
 			_selected.removeClass('blank_expenses').addClass('pending_expenses').attr('value', expns_entry["status"]);
-			new_exp = false;
+			new_exp_row = false;
 		}
 		
 		$.each(expns_entry, function (_name, value) {
@@ -711,7 +715,7 @@ Csys.Expense = ( function() {
 		});
 		
 		if ( yellow_len == 0 ) {
-			if ( new_exp == true ) {
+			if ( new_exp_row == true ) {
 				elem_tbody.find('.pending_expenses').unbind();
 				elem_tbody.prepend(_selected);
 				_sort_expenses(elem_tbody);
@@ -732,8 +736,8 @@ Csys.Expense = ( function() {
 	// sort_by_date = = = = =	
 
 	 _sort_by_date = function(a, b) {
-		if($(a).find('td.date').html() < $(b).find('td.date').html()) return -1;
-		if($(a).find('td.date').html() > $(b).find('td.date').html()) return 1;
+		if($(a).find('#date').val() < $(b).find('#date').val()) return -1;
+		if($(a).find('#date').val() > $(b).find('#date').val()) return 1;
 		return 0;
     },
 
