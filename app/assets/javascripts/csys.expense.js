@@ -688,10 +688,9 @@ Csys.Expense = ( function() {
   		      "<td class='amount total'></td>" +
   		      "<td class='purpose'></td>" +
   		      "<td class='status'></td></tr>"));
-		
-		var date = new Date(expns_entry["date"].split(' ')[0]);
-		var day = (date.getDate()+1) < 10 ? "0"+(date.getDate()+1) : (date.getDate()+1);
-		var formatted = (date.getMonth()+1) + "/" + day + "/" +  date.getFullYear();
+
+		var date = expns_entry["date"].split('-');
+		var formatted = date[1] + '/' + date[2] + '/' + date[0];
 
 		_selected.find('td.date').attr('value', expns_entry["date"]).html(formatted);
 		_selected.find('td.vendor').attr('value', expns_entry["vendor"]).html(expns_entry["vendor"]);
