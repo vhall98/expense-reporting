@@ -3,7 +3,7 @@ module HomeHelper
   def expenses_to_approve( reviewees, db_cols, approver )
     if approver 
       content = "<li id='expenses-to-approve' class='employees-section'>"\
-        "<span id='nav-approve-expenses' class='expense-btn'>Employee Expenses</span>"\
+        "<span id='nav-approve-expenses' class='expense-btn'>Expenses to Approve</span>"\
   			"<ul id='approve-list' style='display: none'>"
 			
         reviewees.each do |p|

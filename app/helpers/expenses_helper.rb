@@ -130,7 +130,7 @@ module ExpensesHelper
   end
   
   def build_expense_rows( user, expenses, db_cols, show )
-    content = "<div id='#{user}' class='row expense_table' style='display: #{show ? 'block' : 'none'}'>"\
+    content = "<div id='#{user}' class='row expense_table' style='display: #{show == true ? 'block' : 'none'}'>"\
   	"<div class='columns small-15 medium-15 large-15' style='width:100%' >"\
   		"<table class='expense-table-contents'>"\
   		  "<thead>"\

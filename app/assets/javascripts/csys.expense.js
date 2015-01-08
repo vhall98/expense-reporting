@@ -4,18 +4,17 @@
 //= require jquery.validate.additional-methods
 
 var Csys = Csys || {};
-Csys.Expense = (function() {
+Csys.Expense = ( function() {
 	
 	// initExpensePage = = = = =
 	// initExpensePage = = = = =
 	// initExpensePage = = = = =
 	
 	var initExpensePage = function(e) {
-		if ( !$('#signup').is(':visible') ) {
-			$('#logged-in-page').toggle();
-		}
-
 		var approve = 0;
+		
+		var main_user = $('#main-user').val();
+		$('#system-hdr').html("Expenses for: " + main_user);
 		//
 		// add calendar/datepicker to page
 		//
@@ -69,12 +68,10 @@ Csys.Expense = (function() {
 		var to_approve_list = $('#approve-list li');
 		
 		to_approve_list.click( function() {
-			$(this).addClass('yellow2');
 			
-			var person = $(this).attr('value');
+			var exp_to_view = $(this).attr('value');
 			var viewing = $('#viewing').val();
-			
-			if ( viewing != 'blank_rows') {
+			if ( viewing !== "blank_rows" ) { 
 				var _name = (viewing.split('_'))[1];
 				$('#expense_'+_name).removeClass('yellow2');
 				var c = $('#'+viewing).find('table tbody tr.yellow');
@@ -82,10 +79,10 @@ Csys.Expense = (function() {
 					c.removeClass('yellow');
 				}
 			}
+			
 			$('#'+viewing).hide();
-			$('#'+person).show();
-			$('#viewing').attr('value', person);
-			$('#approve-button, #reject-button').attr('disabled', true).addClass('darken');
+			$('#'+exp_to_view).show();
+			$('#system-hdr').html("Expenses to approve for: " + (exp_to_view.split('_'))[1]);			
 		});
 	},
 	
@@ -129,20 +126,24 @@ Csys.Expense = (function() {
 					$('#expense-buttons').toggle();
 					$('#approver-buttons').toggle();
 					$('#'+$('#viewing').val()).toggle();
-					$('#blank_rows').toggle();
+					$('#blank_rows').css('display', 'block');
 					$('#viewing').attr('value', "blank_rows");
+				}
+				else {
+					$('#approve-list').toggle();
 				}
 				$('#approve-button, #reject-button').attr('disabled', true).addClass('darken');
 				
-				var viewing = $('#viewing').val();	
 				var main_user = $('#main-user').val();
-				if ( $('#'+main_user).find('table tbody tr.yellow').length > 0 ) { 
-					$('#'+main_user).find('table tbody tr.yellow').removeClass('yellow');
-				}
+				var len = $('#'+main_user).find('table tbody tr.yellow').length;
+				len > 0 ? $('#'+main_user).find('table tbody tr.yellow').removeClass('yellow') : len;
 			});
 		}
 	
 		$('#nav-expense-form').click( function() {
+			var main_user = $('#main-user').val();
+			$('#system-hdr').html("Expenses for: " + main_user);
+			
 			if ( $('#approve-button').is(':visible') ) {
 				$('#approve-list').toggle();
 				$('#expense-buttons').toggle();
@@ -152,7 +153,7 @@ Csys.Expense = (function() {
 				$inputs.removeAttr('disabled');
 				
 				var viewing = $('#viewing').val();			
-				$('#'+viewing).hide();
+				$('#'+viewing).css('display', 'none');
 			
 				if ( viewing != 'blank_rows') {
 					var _name = (viewing.split('_'))[1];
@@ -248,6 +249,7 @@ Csys.Expense = (function() {
 			_suppressNonNumericInput(e, $(this));
 		});
 		$('.numeric').keyup( function(e) {
+			var test = $(this).val();
 			if ( _IsFloatOnly($(this).val()) ) {
 				$(this).val(parseFloat($(this).val()).toFixed(2));
 			}
@@ -325,7 +327,7 @@ Csys.Expense = (function() {
 
 		$('#save-button, #submit-button').click( function(e) {	
 		    e.preventDefault();
-
+			_clearErrors();
 			if ($('#receipt-form').valid()) {
 				if ( $(this).attr('name') == "submit" ) {
 					$('#action').attr('value', '/submit/'+$(this).attr('value'));
@@ -336,7 +338,7 @@ Csys.Expense = (function() {
 					$('#new-button').removeAttr('disabled').removeClass('disable');
 					$('#cancel-button, #save-button').addClass('disable').attr('disabled', true);
 				}
-				_clearErrors();
+				// _clearErrors();
 				disable_inputs(true);
 			}
 		});

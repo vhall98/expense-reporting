@@ -34,8 +34,8 @@ class ApplicationController < ActionController::Base
     
     if session[:user_id]
       redirect_to expenses_path
-      return false
+      return true
     end
-    return true
+    return false
   end
 end

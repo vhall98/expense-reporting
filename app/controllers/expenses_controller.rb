@@ -3,7 +3,6 @@ class ExpensesController < ApplicationController
   before_filter :save_login_state, :only => [:login, :login_attempt]
   
   def index
-
     # Create mapping to Expense table column names
     @db_cols = ExpenseReporting::Application.config.db_columns
     # @user = Sys::Admin.get_login
