@@ -154,8 +154,8 @@ module ExpensesHelper
                     content += "<input id='#{db_cols.key(name)}' type='hidden' value='#{value}'></input>"
   	      		  end		     
 
-  	      		  date = expense[db_cols[:date]] ? expense[db_cols[:date]].to_time.strftime('%m/%d/%Y') : expense[db_cols[:date]]
-      		      content += "<td class='date'>#{date}</td>"\
+                date = (expense[db_cols[:date]].to_s.split())[0].split('-')
+      		      content += "<td class='date'>#{date[1] + '/' + date[2] + '/' + date[0]}</td>"\
       		      "<td class='vendor'>#{expense[db_cols[:vendor]]}</td>"\
       		      "<td class='amount total'>#{expense[db_cols[:total]]}</td>"\
       		      "<td class='purpose'>#{expense[db_cols[:purpose]]}</td>"\

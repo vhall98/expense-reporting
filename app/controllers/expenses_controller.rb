@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
-  before_filter :authenticate_user, :only => [:index]
-  before_filter :save_login_state, :only => [:login, :login_attempt]
+  before_action :authenticate_user, :only => [:index]
+  before_action :save_login_state, :only => [:login, :login_attempt]
   
   def index
     # Create mapping to Expense table column names
@@ -116,7 +116,7 @@ class ExpensesController < ApplicationController
   
   # POST /save
   def save
-    @data = params[:receipts]
+    @data = expense_params
     @db_cols = ExpenseReporting::Application.config.db_columns
     # @user = Sys::Admin.get_login
     #@user = "dshavers"
@@ -267,7 +267,7 @@ class ExpensesController < ApplicationController
 
   # post /submit/1  
   def submit
-    @data = params[:receipts]
+    @data = expense_params
     @expense = TblReceipt.find(params[:id])
     @expense.Status = 'pending approval'
     
@@ -304,4 +304,11 @@ class ExpensesController < ApplicationController
     # redirect_to :action => 'login'
     redirect_to sessions_login_path    
   end
+  
+private
+  
+  def expense_params
+    params.require(:receipts).permit(:total, :amount1, :amount2, :amount3, :amount4, :amount5, :approvedBy, :approveddate, :category1, :category2, :category3, :category4, :category5, :duration, :durationtype, :employeeid, :reason, :exportdate, :havereceipt, :local, :nightsaway, :paidby, :persons, :projectdesc, :projectid, :purpose, :date, :eeceiptno, :state, :status, :updatedate, :updateuser, :vendor)
+  end
+  
 end

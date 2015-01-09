@@ -18,13 +18,13 @@ ExpenseReporting::Application.routes.draw do
   root :to => "sessions#login"
   
   #match "signup", :to => "users#new"
-  match "signup", :to => "expenses#index"
-  match "login", :to => "sessions#login"
-  match "logout", :to => "sessions#logout"
-  match "home", :to => "sessions#home"
-  match "profile", :to => "sessions#profile"
-  match "setting", :to => "sessions#setting"  
-  match ':controller(/:action(/:id))(.:format)'
+  get "signup", :to => "expenses#index"
+  get "login", :to => "sessions#login"
+  get "logout", :to => "sessions#logout"
+  get "home", :to => "sessions#home"
+  get "profile", :to => "sessions#profile"
+  get "setting", :to => "sessions#setting"  
+  match ':controller(/:action(/:id))(.:format)', via: :all
   
   controller :expenses do
     get 'expenses'      => :index

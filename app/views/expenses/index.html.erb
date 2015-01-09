@@ -31,6 +31,7 @@
 		<div id='expense-table'>
 			<input id="viewing" type="hidden" value="<%= @user %>"></input>
 			<input id="main-user" type="hidden" value="<%= @user %>"></input>
+			<%#= Dump(@expenses) %>
 			<%= current_expenses(@user, @expenses, @db_cols, @reviewees, @reviewee_expenses) %>
 		</div>
 	</div>
