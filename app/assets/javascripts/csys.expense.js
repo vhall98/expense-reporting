@@ -146,6 +146,7 @@ Csys.Expense = ( function() {
 	
 		$('#nav-expense-form').click( function() {
 			var main_user = $('#main-user').val();
+			$('#expense_updateuser').attr('value', main_user);
 			$('#system-hdr').html("Expenses for: " + main_user);
 			
 			if ( $('#approve-button').is(':visible') ) {
@@ -282,7 +283,7 @@ Csys.Expense = ( function() {
 	// displayUserLoggedIn = = = = =
 
 	 displayUserLoggedIn = function() {
-		var user = $('#expense_updateuser').val();
+		var user = $('#main-user').val();
 
 		$('#logged-in').html("user: " + user).css('display', 'block');
 		if ( !$('#nav-approve-expenses').is(':visible') ) {

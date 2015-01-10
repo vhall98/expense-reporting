@@ -22,18 +22,19 @@ class User < ActiveRecord::Base
   end
   
   def self.authenticate(username_or_email="", login_password="")
-    # print "\nusername_or_email = #{username_or_email}, password = #{login_password}\n"
     user = nil
+    email_regex=EMAIL_REGEX.match(username_or_email)
+
     if EMAIL_REGEX.match(username_or_email)
-      user = User.find_by_email(username_or_email)
+      user = User.where("email = ?", username_or_email).first
     else
-      user = User.find_by_username(username_or_email)
+      user = User.where("username = ?", username_or_email).first
+    end
+
+    if !user.nil? && user.encrypted_password != BCrypt::Engine.hash_secret(login_password, user.salt)
+      user = nil
     end
     user
   end
-  
-  def match_password(login_password="")
-    encrypted_password == BCrypt::Engine.hash_secret(login_password, salt)
-  end
-  
+    
 end
