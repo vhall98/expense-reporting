@@ -1,0 +1,85 @@
+<%= form_for :expense, :url => {:action => 'save' }, :html => {:id => 'receipt-form'} do |f| %>
+	<div class='expense-details'>
+		
+		<div class="details columns small-7 medium-7 large-7" style="float:left">
+			<div class='row'>
+				<%= f.label "Receipt Date:" %>
+				<%= f.text_field :date, type: 'textbox', class: 'numeric text-box', data: { "date-format" => 'yyyy-mm-dd hh:ii:ss' } %>
+				<%= f.hidden_field :updatedate, data: { "date-format" => 'yyyy-mm-dd hh:ii:ss' } %>
+				<%= f.hidden_field :updateuser, value: @user %>
+				<%= f.hidden_field :employeeid, value: @user %>
+				<%= f.hidden_field :receiptno, value: "0" %>
+				<%= f.hidden_field :status, value: 'pending' %>
+				<%= f.hidden_field :local %>
+				<%= f.hidden_field :action, id: 'action' %>
+				<div>
+					<%= f.label "Have Receipt:" %>
+					<%= f.check_box :havereceipt, value: "0", autocomplete: 'off', class: 'check-box' %>
+				</div>
+			</div>
+			<div class='row'>
+				<%= f.label "Exp. Reason:" %>
+				<%= f.collection_select(:reason, @exp_reasons.all, @db_cols[:reason], @db_cols[:description], {include_blank: true}, class: "select-size2") %>
+			</div>
+			<div class='row'>
+				<%= f.label "State:" %>
+				<%= f.collection_select(:state, @states.all, @db_cols[:stateabbr], @db_cols[:stateabbr], {include_blank: true}, class: "select-size1") %>
+		   </div>
+			<div class='row'>
+				<%= f.label "Paid By:" %>
+				<%= f.collection_select(:paidby, @paid_by.all, @db_cols[:codedesc], @db_cols[:codedesc], {include_blank: true}, class: "select-size2") %>
+			</div>
+			<div class='row'>
+				<%= f.label "Duration:" %>
+				<%= f.text_field :duration, type: 'textbox', class: 'numeric text-box' %>
+				
+				<%= f.label "Type:" %>
+				<%= f.select(:durationtype, [['',''], ['Hours', 'Hours'], ['Days', 'Days']], {}, class: "select-size1" ) %>
+			</div>
+		</div>
+		
+		<div class="categories columns small-8 medium-8 large-8" style="float:left">
+			<% 5.times do |i| %>
+				<div class='row'>
+					<%= f.collection_select("category#{i+1}", @categories.all, @db_cols[:categoryID], @db_cols[:description], { include_blank: true },{ class: "select-size2", :data => {val: "#expense_amount#{i+1}"} }) %>
+					<div style="float:right">
+						<%= f.text_field "amount#{i+1}", type: 'textbox', class: 'amount numeric text-box', autocomplete: 'off', data: {val: "#expense_category#{i+1}"} %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+		
+		<div class="bottom-section columns small-15 medium-15 large-15">
+			<div class='row'>
+				<%= f.label "Vendor:" %>
+				<%= f.text_field :vendor, type: 'textbox', class: 'text-box2' %>
+				<div style="float:right">
+					<%= f.label "Total:" %>
+					<%= f.text_field :total, type: 'textbox', class: 'total text-box' %>
+				</div>
+			</div>
+			<div class='row'>
+				<%= f.label "Purpose:" %>
+				<%= f.text_field :purpose, type: 'textbox', class: 'text-entry' %>
+			</div>
+			<div class='row'>
+				<%= f.label "Persons:" %>
+				<%= f.text_field :persons, type: 'textbox', class: 'text-entry' %>
+			</div>
+		  	<div id='expense-buttons' class='row buttons-section'>
+				<%= link_to('New', 'javascript:;', :id => "new-button", class: 'button tiny radius btn') %>
+				<%#= f.submit "Save", :id => "save-button", class: 'button tiny radius btn' %>
+	    		<button id='save-button' name='save' class='button tiny radius btn' type='submit' value=''>Save</button>
+				<%= link_to('Edit', 'javascript:;', :id => "edit-button", class: 'button tiny radius btn') %>
+				<%= link_to('Cancel', 'javascript:;', :id => "cancel-button", class: 'cancel button tiny radius btn') %>
+				<%= link_to('Delete', 'javascript:;', :id => "delete-button", class: 'delete button tiny radius btn') %>
+				<%= link_to('Submit for Approval', 'javascript:;', name: 'submit', id: "submit-button", class: 'submit button tiny radius btn') %>
+		  	</div>
+		  	<div id='approver-buttons' class='row buttons-section' style='display:none'>
+				<%= link_to('Approve', 'javascript:;', :id => "approve-button", class: 'button tiny radius btn') %>			
+				<%= link_to('Reject', 'javascript:;', :id => "reject-button", class: 'button tiny radius btn') %>			
+		  	</div>
+		</div>
+		
+	</div>
+<% end -%>
