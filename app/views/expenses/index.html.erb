@@ -1,0 +1,37 @@
+<div id="leftContent" class="columns small-3 medium-3 large-3" style="height: 758px;margin-top:6px;padding-left:4px!important;background:none repeat scroll 0 0 #f2f2f2">
+	<%= render 'layouts/sidebar' %>
+</div>
+<div id="mainContent" class="columns small-15 medium-15 large-15">   
+	<div id="expenses-page">
+		<!-- 
+		      ---------------------------------------- Expense Entry Section ---------------------------------------- 
+		-->
+
+		<div id="expense-section" class="panel receipt-entry-section">
+			<div id="form-error" style="display:none"><span></span></div>
+			<div class="row headers">
+				<div class="columns small-7 medium-7 large-7">
+					<span>Details</span>
+				</div>
+				<div class="columns small-6 medium-6 large-6">
+					<span>Categories</span>
+				</div>
+				<div class="columns small-2 medium-2 large-2">
+					<span>Amounts</span>
+				</div>
+			</div>
+			<%#= Dump(@categories) %>
+			<%= render( :partial => "form") %>
+		</div>
+
+		<!-- 
+		      ------------------------------- Existing or Newly Created Expense Reports ---------------------------------------- 
+		-->
+		<div id='expense-table'>
+			<input id="viewing" type="hidden" value="<%= @user %>"></input>
+			<input id="main-user" type="hidden" value="<%= @user %>"></input>
+			<%#= Dump(@expenses) %>
+			<%= current_expenses(@user, @expenses, @db_cols, @reviewees, @reviewee_expenses) %>
+		</div>
+	</div>
+</div>
