@@ -68,8 +68,7 @@
 			</div>
 		  	<div id='expense-buttons' class='row buttons-section'>
 				<%= link_to('New', 'javascript:;', :id => "new-button", class: 'button tiny radius btn') %>
-				<%#= f.submit "Save", :id => "save-button", class: 'button tiny radius btn' %>
-	    		<button id='save-button' name='save' class='button tiny radius btn' type='submit' value=''>Save</button>
+				<%= f.submit "Save", :id => "save-button", class: 'button tiny radius btn', name: 'save' %>
 				<%= link_to('Edit', 'javascript:;', :id => "edit-button", class: 'button tiny radius btn') %>
 				<%= link_to('Cancel', 'javascript:;', :id => "cancel-button", class: 'cancel button tiny radius btn') %>
 				<%= link_to('Delete', 'javascript:;', :id => "delete-button", class: 'delete button tiny radius btn') %>
