@@ -331,9 +331,11 @@ Csys.Expense = ( function() {
 		$('#new-button').removeAttr('disabled').removeClass('disable');
 
 		$('#save-button, #submit-button').click( function(e) {	
-		    e.preventDefault();
+			e.preventDefault();
 			_clearErrors();
-			if ($('#receipt-form').valid()) {
+			var valid = $('#receipt-form').valid();
+
+			if ( valid ) {
 				if ( $(this).attr('name') == "submit" ) {
 					$('#action').attr('value', '/submit/'+$(this).attr('value'));
 					$(this).addClass('disable').attr('disabled', true);
@@ -630,7 +632,7 @@ Csys.Expense = ( function() {
 			    $.ajax({
 			      context:this,
 			      url: action,
-			      data: {receipts: values},
+			      data: {expense: values},
 			      type: 'post',
 			      dataType: 'json',
 			      success: _success_save,
@@ -690,7 +692,7 @@ Csys.Expense = ( function() {
   		      "<td class='purpose'></td>" +
   		      "<td class='status'></td></tr>"));
 
-		var date = expns_entry["date"].split('-');
+		var date = (expns_entry["date"].split(' '))[0].split('-');
 		var formatted = date[1] + '/' + date[2] + '/' + date[0];
 
 		_selected.find('td.date').attr('value', expns_entry["date"]).html(formatted);
