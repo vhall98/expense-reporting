@@ -15,7 +15,7 @@ gem 'uglifier', '>= 2.7.0'
 gem 'compass-rails'
 gem 'foundation-rails', '~> 5.5.0.0'
 gem 'font-awesome-rails'
-gem 'jquery-validation-rails'
+gem 'jquery-validation-rails', '~> 1.13.1'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'

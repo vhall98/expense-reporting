@@ -20,9 +20,8 @@
 					<span>Amounts</span>
 				</div>
 			</div>
-			<%= expense_form(@amnt_names, @cat_names, @user, @states, @paid_by, @exp_reasons, @categories, @db_cols) %>
 			<%#= Dump(@categories) %>
-
+			<%= render( :partial => "form") %>
 		</div>
 
 		<!-- 

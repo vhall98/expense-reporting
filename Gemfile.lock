@@ -196,7 +196,7 @@ DEPENDENCIES
   foundation-rails (~> 5.5.0.0)
   jbuilder (~> 2.2.6)
   jquery-rails
-  jquery-validation-rails
+  jquery-validation-rails (~> 1.13.1)
   json
   nokogiri
   rails (= 4.2.0)
