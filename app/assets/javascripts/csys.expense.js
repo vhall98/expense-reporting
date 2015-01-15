@@ -196,7 +196,6 @@ Csys.Expense = ( function() {
 					var _input = $('#expense_' + this.id); // Form inputs identified by expense_<xxxxxx>
 					if ( _input.length > 0 ) {
 						_input.val($(this).val() == null ? "":$(this).val());
-						_input.attr('value', $(this).val());
 						if ( _input.children().length > 0 ) {
 							_input.children().each( function() {
 								if ( $(this).val() == _input.val() ) {
@@ -205,7 +204,6 @@ Csys.Expense = ( function() {
 							});
 						}
 						else if ( _input.is(':checkbox') ) {
-							_input.removeAttr('disabled');
 							if ( $(this).attr('value') == 0 ) {
 								_input.removeAttr('checked');
 							}
