@@ -21299,7 +21299,7 @@ Csys = (function() {
     // foundation init
     if (typeof $(document).foundation !== 'undefined') {
       $(document).foundation();
-    }   
+    }
   });
 
   // return = = = = =
@@ -21517,13 +21517,11 @@ Csys.Expense = ( function() {
 							});
 						}
 						else if ( _input.is(':checkbox') ) {
-							var val = _input.val() == "false" ? 0 : 1;
-							_input.val(val);
-							if ( _input.val() == 0 ) {
+							if ( $(this).attr('value') == 0 ) {
 								_input.removeAttr('checked');
 							}
 							else {
-								_input.attr('checked', '');
+								_input.attr('checked', true);
 							}
 						}
 						else {
@@ -21645,7 +21643,9 @@ Csys.Expense = ( function() {
 		$('#save-button, #submit-button').click( function(e) {	
 			e.preventDefault();
 			_clearErrors();
-			if ($('#receipt-form').valid()) {
+			var valid = $('#receipt-form').valid();
+
+			if ( valid ) {
 				if ( $(this).attr('name') == "submit" ) {
 					$('#action').attr('value', '/submit/'+$(this).attr('value'));
 					$(this).addClass('disable').attr('disabled', true);
@@ -21816,7 +21816,19 @@ Csys.Expense = ( function() {
 			var _name = this.id ? this.id.split("_") : false;
 
 			if ( $(this).val() && _name && _name[1] ) {
-				values[_name[1]] = $(this).val();
+				if ( $(this).is(':checkbox') ) {
+					var test = ($(this).attr('checked') == 'checked');
+					test = $(this).is(":checked");
+					if ( $(this).is(':checked') ) {
+						values[_name[1]] = 1;
+					}
+					else {
+						values[_name[1]] = 0;
+					}
+				}
+				else {
+					values[_name[1]] = $(this).val();
+				}
 			}
 		});
 		return values;
@@ -21937,7 +21949,7 @@ Csys.Expense = ( function() {
 				}
 			},
 			submitHandler: function() { 
-			   var values = get_form_inputs();
+				var values = get_form_inputs();alert(values.toSource());
 			   var action = $('#action').val();
 			    $.ajax({
 			      context:this,
@@ -22002,7 +22014,7 @@ Csys.Expense = ( function() {
   		      "<td class='purpose'></td>" +
   		      "<td class='status'></td></tr>"));
 
-		var date = expns_entry["date"].split('-');
+		var date = (expns_entry["date"].split(' '))[0].split('-');
 		var formatted = date[1] + '/' + date[2] + '/' + date[0];
 
 		_selected.find('td.date').attr('value', expns_entry["date"]).html(formatted);
@@ -22180,7 +22192,7 @@ var Csys = Csys || {};
 Csys.Sessions = (function() {
 
 
-	// removeErrorObjects = = = = =    
+	// removeErrorObjects = = = = =
 	// removeErrorObjects = = = = =
 	// removeErrorObjects = = = = =
 	

@@ -127,7 +127,7 @@ class ExpensesController < ApplicationController
     num = @data[:receiptno].to_i
     @expense = nil
     @expenses = nil
-    
+
     # Get the highest receipt number and increment by 1
     if num == 0
       max_num = TblReceipt.maximum(@db_cols[:receiptno])
@@ -308,7 +308,7 @@ class ExpensesController < ApplicationController
 private
   
   def expense_params
-    params.require(:expense).permit(:total, :amount1, :amount2, :amount3, :amount4, :amount5, :approvedBy, :approveddate, :category1, :category2, :category3, :category4, :category5, :duration, :durationtype, :employeeid, :reason, :exportdate, :havereceipt, :local, :nightsaway, :paidby, :persons, :projectdesc, :projectid, :purpose, :date, :eeceiptno, :state, :status, :updatedate, :updateuser, :vendor)
+    params.require(:expense).permit(:total, :amount1, :amount2, :amount3, :amount4, :amount5, :approvedBy, :approveddate, :category1, :category2, :category3, :category4, :category5, :duration, :durationtype, :employeeid, :reason, :exportdate, :havereceipt, :local, :nightsaway, :paidby, :persons, :projectdesc, :projectid, :purpose, :date, :receiptno, :state, :status, :updatedate, :updateuser, :vendor)
   end
   
 end
