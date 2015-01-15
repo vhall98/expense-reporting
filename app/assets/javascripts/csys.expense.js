@@ -205,13 +205,14 @@ Csys.Expense = ( function() {
 							});
 						}
 						else if ( _input.is(':checkbox') ) {
-							var val = _input.val() == "false" ? 0 : 1;
-							_input.val(val);
-							if ( _input.val() == 0 ) {
+							_input.removeAttr('disabled');
+							if ( $(this).attr('value') == 0 ) {
 								_input.removeAttr('checked');
 							}
 							else {
-								_input.attr('checked', '');
+								if ( !_input.is(':checked') ) {
+									_input.click();
+								}
 							}
 						}
 						else {
@@ -227,8 +228,7 @@ Csys.Expense = ( function() {
 				}
 				else {
 					$('#save-button, #cancel-button').addClass('disable');			
-					var $inputs = $('#receipt-form :input');
-					$inputs.attr('disabled', true);
+					disable_inputs(true);
 					$("#expense_total").removeAttr('disabled');
 					$('#delete-button, #new-button, #edit-button').removeAttr('disabled').removeClass('disable');
 					$('#submit-button').addClass('disable');
@@ -305,6 +305,11 @@ Csys.Expense = ( function() {
 
 		disable ? $inputs.attr('disabled', true).addClass('disable') : 
 					$inputs.removeClass('disable').removeAttr('disabled');
+					
+		var receipt = $inputs.filter(function() {
+		    return /receipt/i.test($(this).attr('id'));
+		});
+		receipt.removeAttr('disabled');
 	},
 
 
@@ -506,7 +511,17 @@ Csys.Expense = ( function() {
 			var _name = this.id ? this.id.split("_") : false;
 
 			if ( $(this).val() && _name && _name[1] ) {
-				values[_name[1]] = $(this).val();
+				if ( $(this).is(':checkbox') ) {
+					if ( $(this).is(':checked') ) {
+						values[_name[1]] = 1;
+					}
+					else {
+						values[_name[1]] = 0;
+					}
+				}
+				else {
+					values[_name[1]] = $(this).val();
+				}
 			}
 		});
 		return values;
@@ -627,7 +642,7 @@ Csys.Expense = ( function() {
 				}
 			},
 			submitHandler: function() { 
-			   var values = get_form_inputs();
+		       var values = get_form_inputs();
 			   var action = $('#action').val();
 			    $.ajax({
 			      context:this,
