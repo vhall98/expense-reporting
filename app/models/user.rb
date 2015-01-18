@@ -7,8 +7,7 @@ class User < ActiveRecord::Base
   #EMAIL_REGEX = /A[w+-.]+@[a-zd-.]+.[a-z]+z/i
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true #password_confirmation attr
-  validates_length_of :password, :in => 6..20, :on => :create
+  validates :password, :presence => true, :confirmation => true, :length => { :minimum => 6, :maximum => 20 }, :on => :create
   
   def encrypt_password
     if password.present?
